@@ -1,0 +1,29 @@
+<h2>Register New Employee</h2>
+
+<%= form_with(model: @user, url: admins_path, local: true) do |form| %>
+  <div class="field">
+    <%= form.label :username %>
+    <%= form.text_field :username, autofocus: true, autocomplete: "username" %>
+  </div> <br>
+  
+  <div class="field">
+    <%= form.label :email %>
+    <%= form.email_field :email, autocomplete: "email" %>
+  </div>  <br>  
+   
+  <div class="field">
+    <%= form.label :password %>
+    <%= form.password_field :password, autocomplete: "new-password" %>
+  </div> <br>
+  
+  <div class="field">
+    <%= form.label :password_confirmation %>
+    <%= form.password_field :password_confirmation, autocomplete: "new-password" %>
+  </div> <br>
+  
+  <%= form.hidden_field :user_type, value: 'employee' %>
+  
+  <div class="actions">
+    <%= form.submit "Create Employee" %>
+  </div>
+<% end %>
