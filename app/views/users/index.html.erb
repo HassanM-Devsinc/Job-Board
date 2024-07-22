@@ -1,19 +1,6 @@
-<% if user_signed_in? %>
-  <h1>Welcome Home, <%= current_user.email %></h1>
+<h1>Welcome Home, <%= current_user.email %></h1>
 
-  <% case current_user.user_type %>
-  <% when 0 %>
-    <%= render 'job_seeker' %>
-  <% when 1 %>
-    <%= render 'admin' %>
-  <% when 2 %>
-    <%= render 'employee' %>
-  <% end %>
+<%= render @user.user_type %>
 
-  <%= link_to 'Sign out', destroy_user_session_path, data: { turbo_method: :delete } %> <br> <br>
-  <%= link_to 'Edit Profile', edit_user_registration_path %>
-
-<% else %>
-  <h1>Home</h1>
-  <%= link_to 'Sign in', new_user_session_path %>
-<% end %>
+<%= link_to 'Sign out', destroy_user_session_path, data: { turbo_method: :delete } %> <br> <br>
+<%= link_to 'Edit Profile', edit_user_registration_path %>
