@@ -2,11 +2,11 @@
   <h1>Welcome Home, <%= current_user.email %></h1>
 
   <% case current_user.user_type %>
-  <% when 'admin' %>
-    <%= render 'admin' %>
-  <% when 'job seeker' %>
+  <% when 0 %>
     <%= render 'job_seeker' %>
-  <% when 'employee' %>
+  <% when 1 %>
+    <%= render 'admin' %>
+  <% when 2 %>
     <%= render 'employee' %>
   <% end %>
 

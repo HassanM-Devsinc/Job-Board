@@ -8,5 +8,5 @@ User.find_or_create_by!(email: "hassan.murtaza@devsinc.com") do |user|
   user.username = "Hassan Murtaza"
   user.password = "Devsinc1122"
   user.password_confirmation = "Devsinc1122"
-  user.user_type = "admin"
+  user.user_type = 1
 end
