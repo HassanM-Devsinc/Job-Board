@@ -10,9 +10,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_21_174730) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_23_131641) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "applicants", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "email", null: false
+    t.string "cnic", null: false
+    t.string "resume", null: false
+    t.string "linkedin_profile", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_applicants_on_user_id"
+  end
+
+  create_table "job_applicants", force: :cascade do |t|
+    t.bigint "job_id", null: false
+    t.bigint "applicant_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["applicant_id"], name: "index_job_applicants_on_applicant_id"
+    t.index ["job_id"], name: "index_job_applicants_on_job_id"
+  end
+
+  create_table "jobs", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "description", null: false
+    t.datetime "application_deadline", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_jobs_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -28,4 +59,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_21_174730) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "applicants", "users"
+  add_foreign_key "job_applicants", "applicants"
+  add_foreign_key "job_applicants", "jobs"
+  add_foreign_key "jobs", "users"
 end
