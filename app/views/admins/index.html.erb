@@ -1,4 +1,8 @@
-<h1>Employee Details</h1>
+<h1>Employer Details</h1>
 <% @users.each do |user| %>
-  <span><b>Employer username: </b></span><u><%= user.username %></u> <span><b>Employer email: </b><u></span><%= user.email %></u><br> 
+  <div>
+    <strong>Employer Username:</strong> <%= user.username %><br>
+    <strong>Employer Email:</strong> <%= user.email %><br>
+    <hr>
+  </div>
 <% end %>
