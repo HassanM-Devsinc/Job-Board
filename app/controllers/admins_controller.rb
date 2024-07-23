@@ -1,5 +1,6 @@
 class AdminsController < ApplicationController
   def index
+    @users = User.where(user_type: 2)
   end
 
   def new
