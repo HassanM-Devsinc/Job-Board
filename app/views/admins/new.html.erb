@@ -1,4 +1,4 @@
-<h2>Register New Employee</h2>
+<h2>Register New Employer</h2>
 
 <%= form_with(model: @user, url: admins_path, local: true) do |form| %>
   <div class="field">
@@ -21,9 +21,9 @@
     <%= form.password_field :password_confirmation, autocomplete: "new-password" %>
   </div> <br>
   
-  <%= form.hidden_field :user_type, value: 'employee' %>
+  <%= form.hidden_field :user_type, value: 'employer' %>
 
   <div class="actions">
-    <%= form.submit "Create Employee" %>
+    <%= form.submit "Create Employer" %>
   </div>
 <% end %>

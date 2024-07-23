@@ -1,0 +1,22 @@
+<h2>Post New Job </h2>
+
+<%= form_with(model: @job, local: true) do |form| %>
+  <div class="field">
+    <%= form.label :title %>
+    <%= form.text_field :title %>
+  </div> <br>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description %>
+  </div> <br>
+
+  <div class="field">
+    <%= form.label :application_deadline %>
+    <%= form.datetime_local_field :application_deadline %>
+  </div> <br>
+
+  <div class="actions">
+    <%= form.submit "Post Job" %>
+  </div>
+<% end %>

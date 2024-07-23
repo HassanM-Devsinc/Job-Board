@@ -6,5 +6,5 @@ class User < ApplicationRecord
 
   validates :username, presence: true
 
-  enum :user_type, { job_seeker: 0, admin: 1, employee: 2}
+  enum :user_type, { job_seeker: 0, admin: 1, employer: 2}
 end

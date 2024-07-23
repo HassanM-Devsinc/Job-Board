@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     when 1
       render 'admin'
     when 2
-      render 'employee'
+      render 'employer'
     end
   end
 end

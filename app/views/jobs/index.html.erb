@@ -1,0 +1,4 @@
+<h1>Jobs Posted</h1>
+<% @jobs.each do |job| %>
+  <span><b>Job Title: </b></span><u><%= job.title %></u> <span><b>Application Deadline: </b><u></span><%= job.application_deadline %></u><br> 
+<% end %>

@@ -8,10 +8,10 @@ class AdminsController < ApplicationController
   end
 
   def create
-    @user = User.create(employee_params)
+    @user = User.create(employer_params)
 
     if @user.persisted?
-      redirect_to root_path, notice: "Employee successfully registered."
+      redirect_to root_path, notice: "Employer successfully registered."
     else
       render :new 
     end
@@ -19,7 +19,7 @@ class AdminsController < ApplicationController
 
   private
 
-  def employee_params
+  def employer_params
     params.require(:user).permit(:username, :email, :password, :password_confirmation, :user_type)
   end
 end
