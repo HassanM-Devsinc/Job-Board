@@ -23,7 +23,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_21_174730) do
     t.string "username", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "user_type", default: "job seeker"
+    t.integer "user_type", default: 0, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
