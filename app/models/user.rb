@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  has_one :applicant
   has_many :jobs
   
   devise :database_authenticatable, :registerable,

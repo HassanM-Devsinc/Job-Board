@@ -1,0 +1,12 @@
+<h1>Current Jobs</h1>
+<% @jobs.each do |job| %>
+  <div>
+    <strong>Job Title:</strong> <%= job.title %><br>
+    <strong>Description:</strong> <%= job.description %><br>
+    <strong>Application Deadline:</strong> <%= job.application_deadline %><br>
+    <strong>Employer Username:</strong> <%= job.user.username %><br>
+    <strong>Employer Email:</strong> <%= job.user.email %><br>
+    <%= button_to "Apply"%>
+    <hr>
+  </div>
+<% end %>

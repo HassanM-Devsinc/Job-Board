@@ -1,0 +1,32 @@
+<h2>Edit Applicant Information</h2>
+
+<%= form_with(model: @applicant, local: true) do |form| %>
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div> <br>
+
+  <div class="field">
+    <%= form.label :email %>
+    <%= form.email_field :email %>
+  </div> <br>
+
+  <div class="field">
+    <%= form.label :cnic %>
+    <%= form.text_field :cnic %>
+  </div> <br>
+
+  <div class="field">
+    <%= form.label :resume %>
+    <%= form.text_field :resume %>
+  </div> <br>
+
+  <div class="field">
+    <%= form.label :linkedin_profile %>
+    <%= form.text_field :linkedin_profile %>
+  </div> <br>
+
+  <div class="actions">
+    <%= form.submit "Confirm" %>
+  </div>
+<% end %>
