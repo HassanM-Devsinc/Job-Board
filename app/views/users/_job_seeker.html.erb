@@ -1,2 +1,6 @@
-<%= link_to 'Edit Applicant Information', edit_applicant_path(current_user) %> <br> <br>
+<% if current_user.applicant.present? %>
+  <%= link_to 'Edit Applicant Information', edit_applicant_path(current_user) %> <br> <br>
+<% else %>
+  <%= link_to 'Add Applicant Information', new_applicant_path %> <br> <br>
+<% end %>
 <%= link_to 'View all Job Openings', applicants_path %> <br> <br>
