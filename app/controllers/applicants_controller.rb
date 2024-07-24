@@ -1,5 +1,6 @@
 class ApplicantsController < ApplicationController
   before_action :authenticate_user!
+  before_action :get_applicant, only: [:edit, :update]
 
   def index
     @jobs = Job.all
@@ -19,21 +20,24 @@ class ApplicantsController < ApplicationController
     end
   end
 
-  # def edit
-  #   @applicant = current_user&.applicant
-  # end
+  def edit
+  end
 
-  # def update
-  #   if current_user&.applicant&.update!(applicant_params)
-  #     redirect_to root_path, notice: 'Applicant data was successfully updated.'
-  #   else
-  #     render :edit
-  #   end
-  # end
+  def update
+    if @applicant.update(applicant_params)
+      redirect_to root_path, notice: 'Applicant data was successfully updated.'
+    else
+      render :edit
+    end
+  end
 
   private
 
   def applicant_params
-    params.require(:applicant).permit(:name, :email, :cnic, :linkedin_profile, user_id: current_user.id )
+    params.require(:applicant).permit(:name, :email, :cnic, :linkedin_profile, :resume)
+  end
+
+  def get_applicant
+    @applicant = current_user.applicant
   end
 end

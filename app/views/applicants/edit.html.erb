@@ -16,10 +16,15 @@
     <%= form.text_field :cnic %>
   </div> <br>
 
-  <div class="field">
+ <div class="field">
     <%= form.label :resume %>
     <%= form.file_field :resume %>
   </div> <br>
+  
+  <div>
+    <p>Current Resume:</p>
+    <p><%= link_to @applicant.resume.filename, url_for(@applicant.resume) %></p><br>
+  </div>
 
   <div class="field">
     <%= form.label :linkedin_profile %>
