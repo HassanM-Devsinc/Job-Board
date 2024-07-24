@@ -1,0 +1,16 @@
+<h1>Current Applicants</h1>
+<% if @applicants.any? %>
+    <% @applicants.each do |applicant| %>
+    <div>
+        <strong>Name:</strong> <%= applicant.name %> <br>
+        <strong>Email:</strong> <%= applicant.email %> <br>
+        <strong>CNIC:</strong> <%= applicant.cnic %> <br>
+        <strong>LinkedIn Url:</strong> <%= applicant.linkedin_profile %> <br>
+        <strong>Resume:</strong> <%= link_to applicant.resume.filename, url_for(applicant.resume) %> <br>
+        <%= link_to "Back", jobs_path%>
+        <hr>
+    </div>
+    <% end %>
+<% else %>
+<p>No Applicants yet </p>
+<% end %>

@@ -4,6 +4,9 @@
     <strong>Job Title:</strong> <%= job.title %> <br>
     <strong>Description:</strong> <%= job.description %> <br>
     <strong>Application Deadline:</strong> <%= job.application_deadline %>
+    <%= button_to "Delete Job", job, method: "delete" %> 
+    <%= link_to "Edit Job", edit_job_path(job) %> <br>
+    <%= button_to "Show Applicants", show_applicants_job_path(job), method: :get %>
     <hr>
   </div>
 <% end %>
