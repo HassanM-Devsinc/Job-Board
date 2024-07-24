@@ -32,9 +32,13 @@ class ApplicantsController < ApplicationController
   end
 
   def apply
-    @job = Job.find(params[:job_id])
-    current_user.applicant.jobs << @job
-    redirect_to root_path, notice: "Applied to job successfully"
+    if current_user.applicant.present?
+      @job = Job.find(params[:job_id])
+      current_user.applicant.jobs << @job
+      redirect_to root_path, notice: "Applied to job successfully"
+    else
+      redirect_to root_path, notice: "Please fill your applicant form first."
+    end
   end
 
   private
