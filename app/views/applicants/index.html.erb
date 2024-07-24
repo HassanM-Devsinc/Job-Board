@@ -6,7 +6,7 @@
     <strong>Application Deadline:</strong> <%= job.application_deadline %> <br>
     <strong>Employer Username:</strong> <%= job.user.username %> <br>
     <strong>Employer Email:</strong> <%= job.user.email %> <br>
-    <%= button_to "Apply"%>
+    <%= button_to "Apply", apply_job_path(job_id: job.id), method: :post %>
     <hr>
   </div>
 <% end %>

@@ -31,6 +31,12 @@ class ApplicantsController < ApplicationController
     end
   end
 
+  def apply
+    @job = Job.find(params[:job_id])
+    current_user.applicant.jobs << @job
+    redirect_to root_path, notice: "Applied to job successfully"
+  end
+
   private
 
   def applicant_params
