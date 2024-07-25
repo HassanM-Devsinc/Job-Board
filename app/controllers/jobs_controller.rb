@@ -1,8 +1,11 @@
 class JobsController < ApplicationController
   before_action :authenticate_user!
+  before_action :get_job, only: [:edit, :update, :destroy]
 
   def index
-    @jobs = current_user.jobs.all
+    @search = Job.ransack(params[:q])
+    @jobs = @search.result
+    @current_employer_jobs = current_user.jobs.all
   end
   
   def new
@@ -20,32 +23,38 @@ class JobsController < ApplicationController
   end
 
   def edit
-    @job = Job.find(params[:id])
   end
 
   def update
-    @job = Job.find(params[:id])
     if @job.update(job_params)
       redirect_to root_path, notice: "Job successfully updated."
     end
   end
 
   def destroy
-    @job = Job.find(params[:id])
-
     if @job.destroy
       redirect_to root_path,  notice: "Job successfully deleted."
     end
   end
 
-  def show_applicants
-   @job = Job.find(params[:id])
-   @applicants = @job.applicants
+  def apply
+    applicant = current_user.applicant
+    if applicant.present?
+      job = Job.find(params[:id])
+      applicant.jobs << job
+      redirect_to root_path, notice: "Applied to job successfully"
+    else
+      redirect_to root_path, notice: "Please fill your applicant form first."
+    end
   end
 
   private
 
   def job_params
     params.require(:job).permit(:title, :description, :application_deadline)
+  end
+
+  def get_job
+    @job = Job.find(params[:id])
   end
 end

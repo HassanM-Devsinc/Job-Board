@@ -1,14 +1,34 @@
 <h1>Current Jobs</h1>
-<% @jobs.each do |job| %>
-  <div>
-    <strong>Job Title:</strong> <%= job.title %> <br>
-    <strong>Description:</strong> <%= job.description %> <br>
-    <strong>Application Deadline:</strong> <%= job.application_deadline %>
-    <%= button_to "Delete Job", job, method: "delete" %> 
-    <%= link_to "Edit Job", edit_job_path(job) %> <br>
-    <%= button_to "Show Applicants", show_applicants_job_path(job), method: :get %>
-    <hr>
-  </div>
+
+<% if current_user.user_type == 'employer' %>
+  <% @current_employer_jobs.each do |job| %>
+    <div>
+      <strong>Job Title:</strong> <%= job.title %> <br>
+      <strong>Description:</strong> <%= job.description %> <br>
+      <strong>Application Deadline:</strong> <%= job.application_deadline %>
+      <%= button_to "Delete Job", job, method: "delete" %> 
+      <%= link_to "Edit Job", edit_job_path(job) %> <br>
+      <%= link_to "Show Applicants", job_applicants_path(job), method: :get %>
+      <hr>
+    </div>
+  <% end %>
+<% elsif current_user.user_type == 'job_seeker' %>
+  <%= search_form_for @search do |f| %>
+    <%= f.search_field :title_cont, placeholder: "Title" %>
+    <%= f.submit "Search" %>
+  <% end %> <br>
+
+  <% @jobs.each do |job| %>
+    <div>
+      <strong>Job Title:</strong> <%= job.title %> <br>
+      <strong>Description:</strong> <%= job.description %> <br>
+      <strong>Application Deadline:</strong> <%= job.application_deadline %> <br>
+      <strong>Employer Username:</strong> <%= job.user.username %> <br>
+      <strong>Employer Email:</strong> <%= job.user.email %> <br>
+      <%= button_to "Apply", apply_job_path(job), method: :post %>
+      <hr>
+    </div>
+  <% end %>
 <% end %>
 
 <%= link_to "Back", root_path%>

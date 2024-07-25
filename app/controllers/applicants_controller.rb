@@ -3,8 +3,8 @@ class ApplicantsController < ApplicationController
   before_action :get_applicant, only: [:edit, :update]
 
   def index
-    @search = Job.ransack(params[:q])
-    @jobs = @search.result
+    @job = Job.find(params[:job_id])
+    @applicants = @job.applicants
   end
 
   def new
@@ -29,16 +29,6 @@ class ApplicantsController < ApplicationController
       redirect_to root_path, notice: 'Applicant data was successfully updated.'
     else
       render :edit
-    end
-  end
-
-  def apply
-    if current_user.applicant.present?
-      @job = Job.find(params[:job_id])
-      current_user.applicant.jobs << @job
-      redirect_to root_path, notice: "Applied to job successfully"
-    else
-      redirect_to root_path, notice: "Please fill your applicant form first."
     end
   end
 
