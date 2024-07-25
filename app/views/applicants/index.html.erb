@@ -1,4 +1,10 @@
 <h1>Current Jobs</h1>
+
+<%= search_form_for @search, url: url_for(controller: 'applicants', action: 'index') do |f| %>
+  <%= f.search_field :title_cont, placeholder: "Title" %>
+  <%= f.submit "Search" %>
+<% end %> <br>
+
 <% @jobs.each do |job| %>
   <div>
     <strong>Job Title:</strong> <%= job.title %> <br>

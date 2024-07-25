@@ -3,7 +3,8 @@ class ApplicantsController < ApplicationController
   before_action :get_applicant, only: [:edit, :update]
 
   def index
-    @jobs = Job.all
+    @search = Job.ransack(params[:q])
+    @jobs = @search.result
   end
 
   def new
