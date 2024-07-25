@@ -10,9 +10,13 @@ class MembersController < ApplicationController
   end
 
   def create
-    @user = User.create(employer_params)
-    if @user.persisted?
-      redirect_to root_path, notice: "Employer successfully registered."
+    @user = User.new(employer_params)
+    @user.password = SecureRandom.hex(4)
+    @user.password_confirmation = @user.password
+
+    if @user.save
+      EmployerMailer.with(employer: @user).welcome_email.deliver_now
+      redirect_to root_path, notice: "Employer registered successfully. A password has been sent to the employer's email."
     else
       render :new 
     end

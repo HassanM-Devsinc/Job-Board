@@ -71,3 +71,5 @@ gem 'devise', '~> 4.9.2'
 gem 'byebug'
 
 gem 'ransack'
+
+gem 'mail'
