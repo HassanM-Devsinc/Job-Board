@@ -73,3 +73,4 @@ gem 'byebug'
 gem 'ransack'
 
 gem 'mail'
+gem "tailwindcss-rails", "~> 2.6"
