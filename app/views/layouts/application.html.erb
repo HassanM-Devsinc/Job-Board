@@ -15,9 +15,9 @@
   <%= render 'layouts/navbar' %>
   
   <main class="flex-grow">
+    <%= yield %>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
-    <%= yield %>
   </main>
 
   <%= render 'layouts/footer' %>
