@@ -23,6 +23,10 @@
         </div>
       </div>
 
+       <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+          <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+       <% end %>
+
       <div>
         <%= f.label :password, class: "block text-sm font-medium leading-6 text-gray-900" %>
         <p class="text-sm text-gray-600"><i>(leave blank if you don't want to change it)</i></p>
