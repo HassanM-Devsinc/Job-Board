@@ -1,17 +1,35 @@
-<h2>Current Applicants</h2>
-<% if @applicants.any? %>
-    <% @applicants.each do |applicant| %>
-    <div>
-        <strong>Name:</strong> <%= applicant.name %> <br>
-        <strong>Email:</strong> <%= applicant.email %> <br>
-        <strong>CNIC:</strong> <%= applicant.cnic %> <br>
-        <strong>LinkedIn Url:</strong> <%= applicant.linkedin_profile %> <br>
-        <strong>Resume:</strong> <%= link_to applicant.resume.filename, url_for(applicant.resume) %> <br>
-        <hr>
-    </div>
-    <% end %>
-<% else %>
-<p>No Applicants yet </p>
-<% end %>
+<div class="max-w-screen-xl mx-auto p-4">
+  <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Current Applicants</h2>
 
-<%= link_to "Back", jobs_path%>
+  <% if @applicants.any? %>
+    <div class="flex flex-col space-y-6">
+      <% @applicants.each do |applicant| %>
+        <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+          <div class="mb-4">
+            <p class="text-lg font-semibold text-gray-900 dark:text-white">
+              <strong>Name:</strong> <%= applicant.name %>
+            </p>
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+              <strong>Email:</strong> <%= applicant.email %>
+            </p>
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+              <strong>CNIC:</strong> <%= applicant.cnic %>
+            </p>
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+              <strong>LinkedIn Url:</strong> <%= applicant.linkedin_profile %>
+            </p>
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+              <strong>Resume:</strong> <%= link_to applicant.resume.filename, url_for(applicant.resume), class: "text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300" %>
+            </p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-gray-600 dark:text-gray-400">No Applicants yet</p>
+  <% end %>
+
+  <div class="mt-6">
+    <%= link_to "Back", jobs_path, class: "text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-lg font-medium" %>
+  </div>
+</div>
