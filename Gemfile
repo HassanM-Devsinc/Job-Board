@@ -74,3 +74,5 @@ gem 'ransack'
 
 gem 'mail'
 gem "tailwindcss-rails", "~> 2.6"
+
+gem 'active_storage_validations'
