@@ -32,7 +32,11 @@
             </div>
             <div class="mt-3">
               <p class="text-sm leading-6 text-gray-600">Current Resume:</p>
-              <p><%= link_to @applicant.resume.filename, url_for(@applicant.resume), class: "text-indigo-600 hover:text-indigo-500" %></p>
+              <% begin %>
+                <p><%= link_to @applicant.resume.filename, url_for(@applicant.resume), class: "text-indigo-600 hover:text-indigo-500" %></p>
+              <% rescue %>
+                <p class="text-red-500">An error occurred</p>
+              <% end %>
             </div>
           </div>
 
