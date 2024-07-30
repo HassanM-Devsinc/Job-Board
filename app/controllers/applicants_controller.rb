@@ -1,10 +1,15 @@
 class ApplicantsController < ApplicationController
   before_action :authenticate_user!
-  before_action :get_applicant, only: [:edit, :update]
+  before_action :set_applicant, only: [:edit, :update]
 
   def index
-    @job = Job.find(params[:job_id])
-    @applicants = @job.applicants
+    begin
+      @job = Job.find(params[:job_id])
+    rescue ActiveRecord::RecordNotFound
+      render file: 'public/404.html', status: :not_found
+    else
+      @applicants = @job.applicants
+    end
   end
 
   def new
@@ -38,7 +43,7 @@ class ApplicantsController < ApplicationController
     params.require(:applicant).permit(:name, :email, :cnic, :linkedin_profile, :resume)
   end
 
-  def get_applicant
+  def set_applicant
     @applicant = current_user.applicant
   end
 end

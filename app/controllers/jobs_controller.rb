@@ -1,6 +1,6 @@
 class JobsController < ApplicationController
   before_action :authenticate_user!
-  before_action :get_job, only: [:edit, :update, :destroy]
+  before_action :set_job, only: [:edit, :update, :destroy]
 
   def index
     @search = Job.ransack(params[:q])
@@ -40,9 +40,14 @@ class JobsController < ApplicationController
   def apply
     applicant = current_user.applicant
     if applicant.present?
-      job = Job.find(params[:id])
-      applicant.jobs << job
-      redirect_to root_path, notice: "Applied to job successfully"
+      begin
+        job = Job.find(params[:id])
+      rescue ActiveRecord::RecordNotFound
+        render file: 'public/404.html', status: :not_found
+      else
+        applicant.jobs << job
+        redirect_to root_path, notice: "Applied to job successfully"
+      end
     else
       redirect_to root_path, notice: "Please fill your applicant form first."
     end
@@ -54,7 +59,11 @@ class JobsController < ApplicationController
     params.require(:job).permit(:title, :description, :application_deadline)
   end
 
-  def get_job
-    @job = Job.find(params[:id])
+  def set_job
+    begin
+      @job = Job.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      render file: 'public/404.html', status: :not_found
+    end
   end
 end
