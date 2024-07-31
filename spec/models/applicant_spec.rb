@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Applicant, type: :model do
-  let(:applicant) { build(:applicant) }
-
   context 'associations' do
     it { should belong_to(:user) }
     it { should have_many(:job_applicants).dependent(:destroy) }
