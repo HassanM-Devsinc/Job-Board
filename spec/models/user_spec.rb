@@ -7,12 +7,12 @@ RSpec.describe User, type: :model do
   end
 
   context 'validations' do
-    it 'validates presence of username' do
+    it 'is not valid without a username' do
       user = build(:user, username: nil)
       expect(user).not_to be_valid
     end
 
-    it 'validates presence of email' do
+    it 'is not valid without an email' do
       user = build(:user, email: nil)
       expect(user).not_to be_valid
     end
@@ -22,9 +22,19 @@ RSpec.describe User, type: :model do
       expect(user).to be_valid
     end
 
-    it 'validates password confirmation' do
+    it 'password confirmation not maches password' do
       user = build(:user, password: 'password', password_confirmation: 'passswordd')
       expect(user).not_to be_valid
+    end
+
+    it 'is a valid email format' do
+      user = build(:user)
+      expect((user.email).match?(/\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i)).to eq(true)
+    end
+
+    it 'must have a valid email format' do
+      user = build(:user, email: "hassan.murtaza@.devsinccom")
+      expect((user.email).match?(/\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i)).to eq(false)
     end
   end
 end
