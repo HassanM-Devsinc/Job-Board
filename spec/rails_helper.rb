@@ -71,4 +71,13 @@ RSpec.configure do |config|
   end
   
   Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
+
+  require 'simplecov'
+  SimpleCov.start 'rails'
+
+  RSpec.configure do |config|
+    config.include Devise::Test::IntegrationHelpers, type: :request
+    config.include FactoryBot::Syntax::Methods
+    config.include Devise::Test::ControllerHelpers, type: :controller
+  end
 end
