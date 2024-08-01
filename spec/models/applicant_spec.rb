@@ -45,6 +45,7 @@ RSpec.describe Applicant, type: :model do
     it 'does not allow invalid cnic format' do
       expect(applicant).to_not allow_value('1234-1234567-1').for(:cnic)
       expect(applicant).to_not allow_value('123412345671').for(:cnic)
+      expect(applicant).to_not allow_value('12345-12cx567-a').for(:cnic)
     end
 
     it 'allows valid linkedin profile format' do
