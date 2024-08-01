@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Applicant, type: :model do
+  let(:applicant) { create(:applicant) }
+
   context 'associations' do
     it { should belong_to(:user) }
     it { should have_many(:job_applicants).dependent(:destroy) }
@@ -9,39 +11,49 @@ RSpec.describe Applicant, type: :model do
   end
 
   context 'validations' do
-    it { should validate_presence_of(:name) }
-    it { should validate_presence_of(:email) }
-    it { should validate_presence_of(:cnic) }
-    it { should validate_presence_of(:linkedin_profile) }
-
-    it 'is a valid email format' do
-      applicant = build(:applicant)
-      expect((applicant.email).match?(/\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i)).to eq(true)
+    it 'validates presence of name' do
+      expect(applicant).to validate_presence_of(:name)
     end
 
-    it 'must have a valid email format' do
-      applicant = build(:applicant, email: "hassan.murtaza@.devsinccom")
-      expect((applicant.email).match?(/\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i)).to eq(false)
+    it 'validates presence of email' do
+      expect(applicant).to validate_presence_of(:email)
     end
 
-    it 'is a valid cnic format' do
-      applicant = build(:applicant)
-      expect((applicant.cnic).match?(/\A\d{5}-\d{7}-\d\z/)).to eq(true)
+    it 'validates presence of cnic' do
+      expect(applicant).to validate_presence_of(:cnic)
     end
 
-    it 'must have a valid cnic format' do
-      applicant = build(:applicant, cnic: "3320-4000000")
-      expect((applicant.cnic).match?(/\A\d{5}-\d{7}-\d\z/)).to eq(false)
-    end
-    
-    it 'is a valid linkedin profile url format' do
-      applicant = build(:applicant)
-      expect((applicant.linkedin_profile).match?(/\A(https?:\/\/)?(www\.)?linkedin\.com\/(in\/[\w-]+|company\/[\w-]+|pub\/[\w-]+\/[\w-]+\/[\w-]+)?\z/)).to eq(true)
+    it 'validates presence of linkedin profile' do
+      expect(applicant).to validate_presence_of(:linkedin_profile)
     end
 
-    it 'must have a valid linkedin profile url format' do
-      applicant = build(:applicant, linkedin_profile: "https://github.com/thoughtbot/factory_bot/blob/master/GETTING_STARTED.md#using-factories")
-      expect((applicant.linkedin_profile).match?(/\A(https?:\/\/)?(www\.)?linkedin\.com\/(in\/[\w-]+|company\/[\w-]+|pub\/[\w-]+\/[\w-]+\/[\w-]+)?\z/)).to eq(false)
+    it 'allows valid email format' do
+      expect(applicant).to allow_value('someone@example.com').for(:email)
+    end
+
+    it 'does not allow invalid email format' do
+      expect(applicant).to_not allow_value('someone@example').for(:email)
+      expect(applicant).to_not allow_value('someone@.com').for(:email)
+      expect(applicant).to_not allow_value('someone@com').for(:email)
+      expect(applicant).to_not allow_value('someone@examplecom.').for(:email)
+    end
+
+    it 'allows valid cnic format' do
+      expect(applicant).to allow_value('12345-1234567-1').for(:cnic)
+    end
+
+    it 'does not allow invalid cnic format' do
+      expect(applicant).to_not allow_value('1234-1234567-1').for(:cnic)
+      expect(applicant).to_not allow_value('123412345671').for(:cnic)
+    end
+
+    it 'allows valid linkedin profile format' do
+      expect(applicant).to allow_value('https://www.linkedin.com/in/hassan-murtaza').for(:linkedin_profile)
+      expect(applicant).to allow_value('http://linkedin.com/in/hassan-murtaza').for(:linkedin_profile)
+    end
+
+    it 'does not allow invalid linkedin profile format' do
+      expect(applicant).to_not allow_value('://linkedin.com/in/hassan-murtaza').for(:linkedin_profile)
     end
   end
 end

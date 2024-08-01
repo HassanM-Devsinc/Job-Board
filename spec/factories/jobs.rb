@@ -1,7 +1,8 @@
 FactoryBot.define do
   factory :job do
-    title { "Software Engineer" }
-    description { "2+ Years of Experience." }
-    application_deadline { 1.month.from_now }
+    title {Faker::Job.title}
+    description {Faker::Lorem.paragraph}
+    application_deadline {Faker::Time.forward(days: 30, period: :all)}
+    association :user
   end
 end
