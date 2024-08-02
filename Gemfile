@@ -83,3 +83,5 @@ gem "tailwindcss-rails", "~> 2.6"
 gem 'active_storage_validations'
 
 gem 'rspec-rails'
+
+gem 'rack-cors'
