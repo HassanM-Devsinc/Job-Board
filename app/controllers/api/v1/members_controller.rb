@@ -20,15 +20,8 @@ class Api::V1::MembersController < ApplicationController
   end
 
   def home
-    @user = current_user
-    case @user.user_type
-    when 0
-      render 'job_seeker'
-    when 1
-      render 'admin'
-    when 2
-      render 'employer'
-    end
+    user = current_user
+    render json: user, status: :ok
   end
 
   private
