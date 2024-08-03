@@ -1,4 +1,4 @@
-class PrivateController < ApplicationController
+class Api::V1::PrivateController < ApplicationController
   before_action :authenticate_user!
   def test
     render json: {
