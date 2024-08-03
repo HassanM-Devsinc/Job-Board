@@ -51,6 +51,7 @@ group :development, :test do
   gem 'faker'
   gem 'simplecov', require: false
   gem 'rails-controller-testing'
+  gem 'dotenv-rails'
 end
 
 group :development do
@@ -85,3 +86,5 @@ gem 'active_storage_validations'
 gem 'rspec-rails'
 
 gem 'rack-cors'
+
+gem 'devise-jwt'

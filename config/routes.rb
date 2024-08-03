@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'private/test'
   root "members#home"
   devise_for :users
   
@@ -12,6 +13,14 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
+      
+      get 'private/test'
+      
+      devise_for :users, controllers: {
+        sessions: 'api/v1/users/sessions',
+        registrations: 'api/v1/users/registrations'
+      }
+
       resources :jobs do
         resources :applicants, only: [:index]
         post 'apply', on: :member
