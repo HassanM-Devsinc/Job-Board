@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function PostJob() {
-    const [title, setTitle] = useState<string>("");
-    const [description, setDescription] = useState<string>("");
-    const [applicationDeadline, setApplicationDeadline] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [applicationDeadline, setApplicationDeadline] = useState<string>("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -18,9 +20,14 @@ export default function PostJob() {
         }
       });
       console.log("Job posted successfully: ", response.data);
+      navigate("/");
     } catch (error) {
       console.error("Error posting job: ", error);
     }
+  };
+
+  const handleCancel = () => {
+    navigate("/");
   };
 
   return (
@@ -72,7 +79,7 @@ export default function PostJob() {
           </div>
 
           <div className="mt-6 flex items-center justify-end gap-x-6">
-            <button type="button" className="text-sm font-semibold leading-6 text-gray-900 hover:text-gray-600">
+            <button onClick={handleCancel} className="text-sm font-semibold leading-6 text-gray-900 hover:text-gray-600">
               Cancel
             </button>
             <button type="submit" className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
