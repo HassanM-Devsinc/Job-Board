@@ -1,16 +1,16 @@
 class Api::V1::JobsController < ApplicationController
-  before_action :authenticate_user!
+  skip_before_action :verify_authenticity_token
   before_action :set_job, only: [:update, :destroy]
 
   def index
-    search = Job.ransack(params[:q])
-    jobs = search.result
-    current_employer_jobs = current_user.jobs.all
-    render json: { jobs: jobs, current_employer_jobs: current_employer_jobs }
+    # search = Job.ransack(params[:q])
+    # jobs = search.result
+    current_employer_jobs = Job.where(user_id: 37)
+    render json: current_employer_jobs
   end
 
   def create
-    job = current_user.jobs.build(job_params)
+    job = Job.new(job_params)
 
     if job.save
       render json: job, status: :created
@@ -53,7 +53,8 @@ class Api::V1::JobsController < ApplicationController
   private
 
   def job_params
-    params.require(:job).permit(:title, :description, :application_deadline)
+    user_params = { user_id: 37 }
+    params.require(:job).permit(:title, :description, :application_deadline).merge(user_params)
   end
 
   def set_job

@@ -16,10 +16,10 @@ Rails.application.routes.draw do
       
       get 'private/test'
       
-      devise_for :users, controllers: {
-        sessions: 'api/v1/users/sessions',
-        registrations: 'api/v1/users/registrations'
-      }
+      # devise_for :users, controllers: {
+      #   sessions: 'api/v1/users/sessions',
+      #   registrations: 'api/v1/users/registrations'
+      # }
 
       resources :jobs do
         resources :applicants, only: [:index]
