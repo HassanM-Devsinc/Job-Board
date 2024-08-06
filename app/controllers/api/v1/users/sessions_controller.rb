@@ -15,10 +15,10 @@ class Api::V1::Users::SessionsController < Devise::SessionsController
 
   private
 
-  def respond_with(_resource, _opts = {})
+  def respond_with(resource, _opts = {})
     render json: {
       message: "Logged in Successfully.",
-      user: current_user
+      user: current_user,
     }, status: :ok
   end
 

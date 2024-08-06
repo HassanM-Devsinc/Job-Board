@@ -6,17 +6,20 @@ const PrivateText: React.FC = () => {
 
   const getText = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/v1/private/test");
+      const response = await axios.get("http://localhost:3000/api/v1/private/test", {
+        headers: {
+         "content-type": "application/json",
+          "authorization": localStorage.getItem("token")
+        }
+      });
       setMessage(response.data.message);
     } catch (error) {
-      console.log(error);
+      console.log("Error fetching private text:", error);
     }
   };
 
   useEffect(() => {
-    {
-      getText();
-    }
+    getText();
   }, []);
 
   return (

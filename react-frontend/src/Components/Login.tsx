@@ -1,65 +1,132 @@
-// import React, { useRef } from "react";
+import React, { useState } from 'react';
+import axios from "axios";
+import PrivateText from './PrivateText';
+import { useNavigate } from 'react-router-dom';
 
-// interface LoginProps {
-//   setCurrUser: React.Dispatch<any>; 
-//   setShow: React.Dispatch<React.SetStateAction<boolean>>;
-// }
+export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
+  const [unauthorizeError, setUnauthorizeError] = useState("");
+  const navigate = useNavigate();
 
-// const Login: React.FC<LoginProps> = ({ setCurrUser, setShow }) => {
-//   const formRef = useRef<HTMLFormElement>(null);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-//   const login = async (userInfo: { user: { email: string; password: string } }, setCurrUser: React.Dispatch<any>) => {
-//     const url = "http://localhost:3000/api/v1/users/sign_in";
-//     try {
-//       const response = await fetch(url, {
-//         method: "post",
-//         headers: {
-//           "content-type": "application/json",
-//           accept: "application/json",
-//         },
-//         body: JSON.stringify(userInfo),
-//       });
-//       const data = await response.json();
-//       if (!response.ok) throw data.error;
-//       localStorage.setItem("token", response.headers.get("Authorization") || "");
-//       setCurrUser(data);
-//     } catch (error) {
-//       console.log("error", error);
-//     }
-//   };
+    const payload = {
+      user: {
+        email,
+        password
+      },
+    };
 
-//   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-//     e.preventDefault();
-//     if (!formRef.current) return;
-//     const formData = new FormData(formRef.current);
-//     const data = Object.fromEntries(formData) as { email: string; password: string };
-//     const userInfo = {
-//       user: { email: data.email, password: data.password },
-//     };
-//     login(userInfo, setCurrUser);
-//     formRef.current.reset();
-//   };
+    try {
+      const response = await axios.post("http://localhost:3000/api/v1/users/sign_in", payload, {
+        headers: {
+          'content-type': 'application/json',
+          'accept': 'application/json',
+        },
+      });
+      if (response.status === 200) {
+        localStorage.setItem("token", response.headers['authorization'] || "");
+        console.log('Signed in successfully');
+        navigate('/private');
+      } else {
+        console.log("An unexpected error occurred.");
+      }
+    } catch (_error) {
+      setUnauthorizeError('Invalid email or password');
+    }
+  };
+  
+  return (
+    <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+          Sign in to your account
+        </h2>
+      </div>
 
-//   const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-//     e.preventDefault();
-//     setShow(false);
-//   };
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <form onSubmit={handleSubmit}>
+          <div className="space-y-6">
+            <div>
+              <label className="block text-sm font-medium leading-6 text-gray-900">
+                Email
+              </label>
+              <div className="mt-2">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  autoFocus
+                  autoComplete="email"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
 
-//   return (
-//     <div>
-//       <form ref={formRef} onSubmit={handleSubmit}>
-//         Email: <input type="email" name="email" placeholder="email" />
-//         <br />
-//         Password: <input type="password" name="password" placeholder="password" />
-//         <br />
-//         <input type="submit" value="Login" />
-//       </form>
-//       <br />
-//       <div>
-//         Not registered yet, <a href="#signup" onClick={handleClick}>Signup</a>
-//       </div>
-//     </div>
-//   );
-// };
+            <div>
+              <div className="flex items-center justify-between">
+                <label className="block text-sm font-medium leading-6 text-gray-900">
+                  Password
+                </label>
+                <div className="text-sm">
+                  <a className="font-semibold text-indigo-600 hover:text-indigo-500">
+                    Forgot password?
+                  </a>
+                </div>
+              </div>
+              <div className="mt-2">
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  autoComplete="current-password"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
 
-// export default Login;
+            <div className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+              />
+              <label className="text-sm font-medium text-gray-900">
+                Remember me
+              </label>
+            </div>
+
+            {unauthorizeError && (
+              <div className="text-sm text-red-600">
+                {unauthorizeError}
+              </div>
+            )}
+
+            <div>
+              <button
+                type="submit"
+                className="mb-3 flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              >
+                Sign in
+              </button>
+              <p className="text-center text-sm text-gray-500">
+                Don't have an account?
+              </p>
+              <div className="text-center">
+                <a href="/sign_up" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                  Sign up
+                </a>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
