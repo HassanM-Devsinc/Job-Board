@@ -36,6 +36,10 @@ export default function ViewJobs()  {
     }
   };
 
+  const handleEdit = async (jobId: number) => {
+    navigate(`/jobs/${jobId}/edit`);
+  };
+
   const handleBack = () => {
     navigate("/");
   };
@@ -63,7 +67,7 @@ export default function ViewJobs()  {
                   </button>
                 </div>
                 <div>
-                  <button className="inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-yellow-600 border border-transparent rounded-lg shadow-sm hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2">
+                  <button onClick={() => handleEdit(job.id)} className="inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-yellow-600 border border-transparent rounded-lg shadow-sm hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2">
                     Edit Job
                   </button>
                 </div>
