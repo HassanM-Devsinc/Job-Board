@@ -88,3 +88,4 @@ gem 'rspec-rails'
 gem 'rack-cors'
 
 gem 'devise-jwt'
+gem 'jsonapi-serializer'
