@@ -1,18 +1,19 @@
 class Api::V1::JobsController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :set_job, only: [:update, :destroy]
+  before_action :authenticate_user!
+  before_action :set_job, only: [:show, :update, :destroy]
 
   def index
     # search = Job.ransack(params[:q])
     # jobs = search.result
-    current_employer_jobs = Job.where(user_id: 37)
+    current_employer_jobs = current_user.jobs.all
     render json: current_employer_jobs
   end
 
   def create
-    job = Job.new(job_params)
+    job = current_user.jobs.create(job_params)
 
-    if job.save
+    if job.persisted?
       render json: job, status: :created
     else
       render json: job.errors, status: :unprocessable_entity
@@ -20,12 +21,7 @@ class Api::V1::JobsController < ApplicationController
   end
 
   def show
-    begin
-      job = Job.find(params[:id])
-      render json: job
-    rescue ActiveRecord::RecordNotFound
-      render json: { error: "Job not found" }, status: :not_found
-    end
+    render json: @job
   end
 
   def update
@@ -62,13 +58,12 @@ class Api::V1::JobsController < ApplicationController
   private
 
   def job_params
-    user_params = { user_id: 37 }
-    params.require(:job).permit(:title, :description, :application_deadline).merge(user_params)
+    params.require(:job).permit(:title, :description, :application_deadline)
   end
 
   def set_job
     begin
-      @job = Job.find(params[:id])
+      @job = current_user.jobs.find(params[:id])
     rescue ActiveRecord::RecordNotFound
       render json: { error: 'Job not found' }, status: :not_found
     end

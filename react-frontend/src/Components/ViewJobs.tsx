@@ -1,6 +1,6 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 interface Job {
   id: number;
@@ -9,14 +9,20 @@ interface Job {
   application_deadline: string;
 }
 
-export default function ViewJobs()  {
+export default function ViewJobs() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     const getAllJobs = async () => {
+      const token = localStorage.getItem("token");
       try {
-        const response = await axios.get('http://localhost:3000/api/v1/jobs');
+        const response = await axios.get('http://localhost:3000/api/v1/jobs', {
+          headers: {
+            'accept': 'application/json',
+            'authorization': token
+          }
+        });
         setJobs(response.data);
       } catch (error) {
         console.error('Error fetching jobs: ', error);
@@ -26,9 +32,15 @@ export default function ViewJobs()  {
   }, []);
 
   const handleDelete = async (jobId: number) => {
+    const token = localStorage.getItem("token"); // Retrieve token from local storage
     if (window.confirm('Are you sure?')) {
       try {
-        await axios.delete(`http://localhost:3000/api/v1/jobs/${jobId}`);
+        await axios.delete(`http://localhost:3000/api/v1/jobs/${jobId}`, {
+          headers: {
+            'accept': 'application/json',
+            'authorization': token
+          }
+        });
         setJobs(jobs.filter(job => job.id !== jobId));
       } catch (error) {
         console.error('Error deleting job: ', error);
@@ -36,7 +48,7 @@ export default function ViewJobs()  {
     }
   };
 
-  const handleEdit = async (jobId: number) => {
+  const handleEdit = (jobId: number) => {
     navigate(`/jobs/${jobId}/edit`);
   };
 
@@ -50,7 +62,7 @@ export default function ViewJobs()  {
       {jobs.length > 0 ? (
         <div className="flex flex-col space-y-6">
           {jobs.map(job => (
-            <div key={job.id} className="bg-white rounded-lg shadow-md p-6 border border-gray-200 dark:bg-gray-800 dark:border-gray-700" >
+            <div key={job.id} className="bg-white rounded-lg shadow-md p-6 border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                 <strong>Job Title:</strong> {job.title}
               </h3>
@@ -84,7 +96,7 @@ export default function ViewJobs()  {
         <p className="text-gray-600 dark:text-gray-400">No Jobs Posted yet</p>
       )}
       <div className="mt-6">
-        <button onClick={handleBack} className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-lg font-medium" >
+        <button onClick={handleBack} className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-lg font-medium">
           Back
         </button>
       </div>

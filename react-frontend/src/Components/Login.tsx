@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import axios from "axios";
-import PrivateText from './PrivateText';
-import { useNavigate } from 'react-router-dom';
 
-export default function Login() {
+export default function Login({setCurrUser}: any) {
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [unauthorizeError, setUnauthorizeError] = useState("");
-  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -21,16 +19,20 @@ export default function Login() {
     };
 
     try {
-      const response = await axios.post("http://localhost:3000/api/v1/users/sign_in", payload, {
-        headers: {
-          'content-type': 'application/json',
-          'accept': 'application/json',
-        },
-      });
+      const response = await axios.post(
+        "http://localhost:3000/api/v1/users/sign_in",
+        payload,
+        {
+          headers: {
+            'content-type': 'application/json',
+            'accept': 'application/json'
+          }
+        }
+      );
       if (response.status === 200) {
         localStorage.setItem("token", response.headers['authorization'] || "");
+        setCurrUser(response.data.user)
         console.log('Signed in successfully');
-        navigate('/private');
       } else {
         console.log("An unexpected error occurred.");
       }
@@ -38,7 +40,7 @@ export default function Login() {
       setUnauthorizeError('Invalid email or password');
     }
   };
-  
+
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -119,7 +121,7 @@ export default function Login() {
                 Don't have an account?
               </p>
               <div className="text-center">
-                <a href="/sign_up" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                <a className="font-semibold text-indigo-600 hover:text-indigo-500">
                   Sign up
                 </a>
               </div>

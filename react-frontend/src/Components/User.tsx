@@ -1,34 +1,25 @@
-// import React, { useState } from 'react';
-// // import Signup from './Signup';
-// import Login from './Login';
-// // import Logout from './Logout';
+import Login from './Login';
+import Home from './Home';
 
-// interface UserProps {
-//   currUser: { email: string } | null;
-//   setCurrUser: (user: { email: string } | null) => void;
-// }
+interface UserProps {
+  currUser: any;
+  setCurrUser: (user: any) => void;
+}
 
-// const User: React.FC<UserProps> = ({ currUser, setCurrUser }) => {
-//   const [show, setShow] = useState(true);
+export default function User({ currUser, setCurrUser }: UserProps) {
+  const isEmptyArray = Array.isArray(currUser) && currUser.length === 0;
 
-//   if (currUser) 
-//     return (
-//       <div>
-//         Hello {currUser.email}
-//         <PrivateText currUser={currUser}/>
-//         {/* <Logout setCurrUser={setCurrUser}/> */}
-//       </div>
-//     );
+  if (currUser && !isEmptyArray) {
+    return (
+      <div>
+        <Home/>
+      </div>
+    );
+  }
 
-//   return (
-//     <div>
-//       {show ? (
-//         <Login setCurrUser={setCurrUser} setShow={setShow}/>  
-//       ) : (
-//         <Login setCurrUser={setCurrUser} setShow={setShow} />
-//       )}
-//     </div>
-//   );
-// };
-
-// export default User;
+  return (
+    <div>
+      <Login setCurrUser={setCurrUser} />
+    </div>
+  );
+}

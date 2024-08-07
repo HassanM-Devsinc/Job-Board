@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export default function EmployerHome() {
+export default function Home() {
   return (
     <div className="mt-52 flex flex-col justify-center items-center px-6 py-12 space-y-6">
       <div className="flex flex-row space-x-12">

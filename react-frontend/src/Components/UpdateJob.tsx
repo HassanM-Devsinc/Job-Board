@@ -12,6 +12,8 @@ export default function UpdateJob() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const token = localStorage.getItem("token");
+
     try {
       const response = await axios.put(`http://localhost:3000/api/v1/jobs/${jobId}`, {
         job: {
@@ -19,7 +21,14 @@ export default function UpdateJob() {
           description,
           application_deadline: applicationDeadline,
         }
-      });
+      },
+        {
+          headers: {
+            'content-type': 'application/json',
+            'accept': 'application/json',
+            'authorization': token
+          }
+        });
       console.log("Job updated successfully: ", response.data);
       navigate("/jobs");
     } catch (error) {
@@ -33,25 +42,32 @@ export default function UpdateJob() {
 
   useEffect(() => {
     const getJobDetails = async () => {
+      const token = localStorage.getItem("token");
+
       try {
-        const response = await axios.get(`http://localhost:3000/api/v1/jobs/${jobId}`);
+        const response = await axios.get(`http://localhost:3000/api/v1/jobs/${jobId}`, {
+          headers: {
+            'accept': 'application/json',
+            'authorization': token
+          }
+        });
         const job = response.data;
         setTitle(job.title);
         setDescription(job.description);
         setApplicationDeadline(formatDate(job.application_deadline));
       } catch (error) {
-        console.error(error);
+        console.error("Error fetching job details: ", error);
       }
     };
     getJobDetails();
-  }, []);
+  }, [jobId]);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     const formattedDate = date.toISOString().slice(0, 16);
     return formattedDate;
   };
-  
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-5xl p-6 bg-white rounded-lg shadow-md">
@@ -102,7 +118,7 @@ export default function UpdateJob() {
 
           <div className="mt-6 flex items-center justify-end gap-x-6">
             <button
-            onClick={handleBack}
+              onClick={handleBack}
               type="button"
               className="text-sm font-semibold leading-6 text-gray-900 hover:text-gray-600"
             >

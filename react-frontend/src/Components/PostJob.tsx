@@ -11,14 +11,26 @@ export default function PostJob() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const token = localStorage.getItem("token");
+
     try {
-      const response = await axios.post("http://localhost:3000/api/v1/jobs", {
-        job: {
-          title,
-          description,
-          application_deadline: applicationDeadline,
+      const response = await axios.post(
+        "http://localhost:3000/api/v1/jobs",
+        {
+          job: {
+            title,
+            description,
+            application_deadline: applicationDeadline,
+          }
+        },
+        {
+          headers: {
+            'content-type': 'application/json',
+            'accept': 'application/json',
+            'authorization': token
+          }
         }
-      });
+      );
       console.log("Job posted successfully: ", response.data);
       navigate("/");
     } catch (error) {
@@ -27,7 +39,7 @@ export default function PostJob() {
   };
 
   const handleCancel = () => {
-    navigate("/");
+    navigate("/home");
   };
 
   return (
@@ -90,4 +102,4 @@ export default function PostJob() {
       </div>
     </div>
   );
-};
+}
