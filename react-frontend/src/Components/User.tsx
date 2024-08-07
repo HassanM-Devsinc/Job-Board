@@ -1,5 +1,6 @@
 import Login from './Login';
 import Home from './Home';
+import { useEffect,useState } from 'react';
 
 interface UserProps {
   currUser: any;
@@ -7,12 +8,17 @@ interface UserProps {
 }
 
 export default function User({ currUser, setCurrUser }: UserProps) {
-  const isEmptyArray = Array.isArray(currUser) && currUser.length === 0;
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
-  if (currUser && !isEmptyArray) {
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsAuthenticated(!!token);
+  }, [isAuthenticated]);
+
+  if (isAuthenticated) {
     return (
       <div>
-        <Home/>
+        <Home />
       </div>
     );
   }

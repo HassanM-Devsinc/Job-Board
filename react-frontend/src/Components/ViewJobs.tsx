@@ -52,9 +52,9 @@ export default function ViewJobs() {
     navigate(`/jobs/${jobId}/edit`);
   };
 
-  const handleBack = () => {
-    navigate("/");
-  };
+  // const handleBack = () => {
+  //   navigate("/");
+  // };
 
   return (
     <div className="max-w-screen-xl mx-auto p-4">
@@ -96,7 +96,7 @@ export default function ViewJobs() {
         <p className="text-gray-600 dark:text-gray-400">No Jobs Posted yet</p>
       )}
       <div className="mt-6">
-        <button onClick={handleBack} className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-lg font-medium">
+        <button className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-lg font-medium">
           Back
         </button>
       </div>
