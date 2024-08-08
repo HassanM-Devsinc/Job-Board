@@ -1,9 +1,10 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from './UseAuth';
 
 export default function Navbar() {
   const { isAuthenticated, setIsAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   const token = localStorage.getItem('token');
 
@@ -19,6 +20,7 @@ export default function Navbar() {
       localStorage.removeItem('token');
       localStorage.removeItem('currUser');
       setIsAuthenticated(false);
+      navigate("/")
     } catch (error) {
       console.error('Error signing out: ', error);
     }
