@@ -2,12 +2,7 @@ import Login from './Login';
 import Home from './Home';
 import { useEffect,useState } from 'react';
 
-interface UserProps {
-  currUser: any;
-  setCurrUser: (user: any) => void;
-}
-
-export default function User({ currUser, setCurrUser }: UserProps) {
+export default function User() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
   useEffect(() => {
@@ -25,7 +20,7 @@ export default function User({ currUser, setCurrUser }: UserProps) {
 
   return (
     <div>
-      <Login setCurrUser={setCurrUser} />
+      <Login setIsAuthenticated={setIsAuthenticated} />
     </div>
   );
 }

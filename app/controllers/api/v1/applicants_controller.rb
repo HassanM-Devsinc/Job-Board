@@ -3,8 +3,10 @@ class Api::V1::ApplicantsController < ApplicationController
 
   def index
     begin
-      job = Job.find(params[:job_id])
-      applicants = job.applicants
+      job = current_user.jobs.find(params[:job_id])
+      applicants = job.applicants.map do |applicant|
+        applicant.as_json.merge(resume: url_for(applicant.resume)) if applicant.resume.attached?
+      end.compact
       render json: applicants
     rescue ActiveRecord::RecordNotFound
       render json: { error: 'Job not found' }, status: :not_found

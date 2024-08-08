@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from "axios";
 
-export default function Login({setCurrUser}: any) {
+export default function Login({setIsAuthenticated}: any) {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,7 +31,7 @@ export default function Login({setCurrUser}: any) {
       );
       if (response.status === 200) {
         localStorage.setItem("token", response.headers['authorization'] || "");
-        setCurrUser(response.data.user)
+        setIsAuthenticated(true);
         console.log('Signed in successfully');
       } else {
         console.log("An unexpected error occurred.");

@@ -32,7 +32,7 @@ export default function ViewJobs() {
   }, []);
 
   const handleDelete = async (jobId: number) => {
-    const token = localStorage.getItem("token"); // Retrieve token from local storage
+    const token = localStorage.getItem("token");
     if (window.confirm('Are you sure?')) {
       try {
         await axios.delete(`http://localhost:3000/api/v1/jobs/${jobId}`, {
@@ -52,9 +52,13 @@ export default function ViewJobs() {
     navigate(`/jobs/${jobId}/edit`);
   };
 
-  // const handleBack = () => {
-  //   navigate("/");
-  // };
+  const handleApplicants = (jobId: number) => {
+    navigate(`/jobs/${jobId}/applicants`);
+  }
+
+  const handleBack = () => {
+    navigate("/");
+  };
 
   return (
     <div className="max-w-screen-xl mx-auto p-4">
@@ -84,7 +88,7 @@ export default function ViewJobs() {
                   </button>
                 </div>
                 <div>
-                  <button className="inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-green-600 border border-transparent rounded-lg shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                  <button onClick={() => handleApplicants(job.id)} className="inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-green-600 border border-transparent rounded-lg shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
                     Show Applicants
                   </button>
                 </div>
@@ -96,7 +100,7 @@ export default function ViewJobs() {
         <p className="text-gray-600 dark:text-gray-400">No Jobs Posted yet</p>
       )}
       <div className="mt-6">
-        <button className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-lg font-medium">
+        <button onClick={handleBack} className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 text-lg font-medium">
           Back
         </button>
       </div>
