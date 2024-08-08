@@ -1,14 +1,9 @@
 import Login from './Login';
 import Home from './Home';
-import { useEffect,useState } from 'react';
+import { useAuth } from './UseAuth';
 
 export default function User() {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    setIsAuthenticated(!!token);
-  }, [isAuthenticated]);
+  const { isAuthenticated } = useAuth();
 
   if (isAuthenticated) {
     return (
@@ -20,7 +15,7 @@ export default function User() {
 
   return (
     <div>
-      <Login setIsAuthenticated={setIsAuthenticated} />
+      <Login />
     </div>
   );
 }

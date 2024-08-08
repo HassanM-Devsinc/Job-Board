@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import axios from "axios";
+import { useAuth } from './UseAuth';
 
-export default function Login({setIsAuthenticated}: any) {
-
+export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [unauthorizeError, setUnauthorizeError] = useState("");
+  const { setIsAuthenticated } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -31,7 +32,10 @@ export default function Login({setIsAuthenticated}: any) {
       );
       if (response.status === 200) {
         localStorage.setItem("token", response.headers['authorization'] || "");
+        localStorage.setItem("currUser", response.data.user.user_type);
         setIsAuthenticated(true);
+        // setCurrUser(response.data.user)
+        // console.log(response.data.user)
         console.log('Signed in successfully');
       } else {
         console.log("An unexpected error occurred.");
