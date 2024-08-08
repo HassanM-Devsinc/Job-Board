@@ -4,10 +4,16 @@ class Api::V1::JobsController < ApplicationController
   before_action :set_job, only: [:show, :update, :destroy]
 
   def index
-    # search = Job.ransack(params[:q])
-    # jobs = search.result
-    current_employer_jobs = current_user.jobs.all
-    render json: current_employer_jobs
+    user = current_user
+    case user.user_type
+    when 'job_seeker'
+      search = Job.ransack(params[:q])
+      jobs = search.result
+      render json: jobs
+    when 'employer'
+      current_employer_jobs = current_user.jobs.all
+      render json: current_employer_jobs
+    end
   end
 
   def create
